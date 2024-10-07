@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Query Search</title>
+    <style>
+        #loader {
+            font-size: 1.5em;
+            color: #007bff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="pdfForm">
+        <input type="file" id="pdfInput" required />
+        <input type="text" id="queryInput" placeholder="Enter your query" required />
+        <button type="submit">Search PDF</button>
+    </form>
+
+    <!-- Loader -->
+    <div id="loader" style="display: none;">
+        <p>Loading...</p>
+    </div>
+
+    <!-- Result -->
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('pdfForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const fileInput = document.getElementById('pdfInput').files[0];
+            const queryInput = document.getElementById('queryInput').value;
+
+            // Show loader and hide the result
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append('file', fileInput);
+            formData.append('query', queryInput);
+
+            try {
+                // Fetch request
+                const response = await fetch('http://ec2-3-111-248-26.ap-south-1.compute.amazonaws.com:8000/search_pdf/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                // Hide loader and show result
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+
+                // Show the response in the result div
+                document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+
+            } catch (error) {
+                // Hide loader and show error message
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerText = 'An error occurred: ' + error.message;
+            }
+        });
+    </script>
+
+</body>
+</html>
