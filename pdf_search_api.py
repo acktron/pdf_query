@@ -14,7 +14,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from fastapi.middleware.cors import CORSMiddleware
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = "api"
 import io
 
 app = FastAPI()
