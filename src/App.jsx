@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import './App.css'
 
-const BASE_URL = 'http://127.0.0.1:8000'
+if (!window.BACKEND_URL) {
+  window.BACKEND_URL = 'http://127.0.0.1:8000'
+}
+
+const BASE_URL = window.BACKEND_URL
 const HEALTH_URL = `${BASE_URL}/debug-query-pdf`
 const QUERY_URL = `${BASE_URL}/query-pdf`
 
