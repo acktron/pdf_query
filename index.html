@@ -4,8 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDF Query System</title>
+
+  <style>
+    /* All your CSS here */
+  </style>
 </head>
 <body>
-  <h1>It works!</h1>
+  <div class="app">
+    <!-- your UI: heading, file input, question textarea, submit button, answer area, etc. -->
+  </div>
+
+  <script>
+    const BACKEND_URL = window.BACKEND_URL || 'http://127.0.0.1:8000';
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // get DOM elements
+      // set up event listeners
+      // call `${BACKEND_URL}/query-pdf` with fetch, update the DOM, handle errors
+    });
+  </script>
 </body>
 </html>
