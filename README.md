@@ -1,41 +1,92 @@
-# PDF Query Program
+# PDF Query System
 
-This project is a web-based application that allows users to upload PDF files and ask queries. The program responds with relevant answers extracted from the uploaded PDFs using a natural language processing model.
+A PDF query system that allows users to upload PDF files and ask questions about their content using Ollama.
 
-## Features
+## Quick Start
 
-- **Upload PDFs:** Users can upload PDF files to the application.
-- **Ask Queries:** Users can ask questions related to the contents of the uploaded PDF.
-- **Intelligent Responses:** The system will provide relevant answers based on the PDF content using a Hugging Face NLP model.
-- **Web Interface:** The program includes an `index.html` file that serves as a simple, user-friendly webpage for interacting with the application.
+### Step 1: Install Ollama
 
-## Technologies Used
+**macOS (with Homebrew):**
+```bash
+brew install ollama
+```
 
-- **Python:** Backend is written in Python, which handles PDF parsing and querying.
-- **Hugging Face Models:** Used for natural language processing and answering queries from the PDF content.
-- **HTML/CSS:** The web interface is designed using `index.html`.
-- **AWS EC2:** The application is deployed on an AWS EC2 instance, with the API running on port 8000.
+**Other platforms:**
+Download from https://ollama.ai
 
-## Setup Instructions
+### Step 2: Pull the llama2 Model
 
-### Requirements
+```bash
+ollama pull llama2
+```
 
-- Python 3.x
-- pip (Python package manager)
-- Hugging Face library (`transformers`)
-- Flask or FastAPI (for the web framework)
-- PyPDF2 (for PDF parsing)
-- Basic HTML/CSS knowledge
+### Step 3: Start Ollama Server
 
-### Installation
+Open a terminal and run:
+```bash
+ollama serve
+```
 
-1. Clone the repository:
+Keep this terminal open. Ollama will run on `http://127.0.0.1:11434`.
 
-   ```bash
-   git clone https://github.com/acktron/pdf_query.git
-   cd pdf_query
-2. Install the required Python packages:
-   pip install -r requirements.txt
-3. Run the application:
-   python pdf_search_api.py
-   This will start the web server on localhost:8000.
+### Step 4: Start FastAPI Backend
+
+Open a **new terminal** and run:
+
+```bash
+cd /path/to/pdf_query
+source venv/bin/activate
+python3 -m uvicorn main:app --reload --host 127.0.0.1 --port 8000
+```
+
+*(Replace `/path/to/pdf_query` with your actual project directory path)*
+
+### Step 5: Open Browser
+
+Navigate to: `http://127.0.0.1:8000`
+
+Upload a PDF and ask questions!
+
+## Setup (First Time Only)
+
+### Backend Dependencies
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Frontend Dependencies
+
+```bash
+npm install
+npm run build
+```
+
+## Project Structure
+
+- `main.py` - FastAPI application entry point
+- `llm_client.py` - Ollama LLM client wrapper
+- `pdf_utils.py` - PDF text extraction utilities
+- `src/` - React frontend source code
+- `dist/` - Built React app (generated after `npm run build`)
+- `requirements.txt` - Python dependencies
+- `package.json` - Node.js dependencies
+
+## API Endpoint
+
+**POST `/query-pdf`**
+
+Accepts:
+- `file`: PDF file (multipart/form-data)
+- `question`: User's question (form field)
+
+Returns:
+```json
+{
+  "answer": "Answer from Ollama",
+  "context_truncated": false,
+  "context_length": 1234
+}
+```
