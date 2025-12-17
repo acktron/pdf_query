@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDF Query System</title>
-  <style>
+    <style>
     * {
       margin: 0;
       padding: 0;
@@ -153,7 +153,7 @@
 
     .loader {
       margin-top: 30px;
-      text-align: center;
+            text-align: center;
       color: #667eea;
       display: none;
     }
@@ -198,8 +198,8 @@
       background: #f8f9ff;
       border-radius: 8px;
       border: 2px solid #e0e7ff;
-      display: none;
-    }
+            display: none;
+        }
 
     .answer-box.show {
       display: block;
@@ -218,7 +218,7 @@
       white-space: pre-wrap;
       font-size: 1rem;
     }
-  </style>
+    </style>
 </head>
 <body>
   <div class="app">
@@ -261,7 +261,7 @@
         >
           Submit Query
         </button>
-      </form>
+    </form>
 
       <div id="loader" class="loader">
         <div class="spinner"></div>
@@ -279,10 +279,10 @@
     </div>
   </div>
 
-  <script>
-    const BASE_URL = window.BACKEND_URL || 'http://127.0.0.1:8000';
-    const HEALTH_URL = `${BASE_URL}/debug-query-pdf`;
-    const QUERY_URL = `${BASE_URL}/query-pdf`;
+    <script>
+    const BACKEND_URL = window.BACKEND_URL || 'http://127.0.0.1:8000';
+    const HEALTH_URL = `${BACKEND_URL}/debug-query-pdf`;
+    const QUERY_URL = `${BACKEND_URL}/query-pdf`;
 
     const pdfInput = document.getElementById('pdfInput');
     const questionInput = document.getElementById('questionInput');
@@ -336,9 +336,9 @@
         formData.append('question', questionInput.value.trim());
 
         const response = await fetch(QUERY_URL, {
-          method: 'POST',
-          body: formData
-        });
+                    method: 'POST',
+                    body: formData
+                });
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({
@@ -347,7 +347,7 @@
           throw new Error(errorData.detail || 'An error occurred');
         }
 
-        const data = await response.json();
+                const data = await response.json();
         answerContent.textContent = data.answer;
         
         if (data.context_truncated) {
@@ -363,8 +363,8 @@
         submitBtn.disabled = false;
         pdfInput.disabled = false;
         questionInput.disabled = false;
-      }
-    });
-  </script>
+            }
+        });
+    </script>
 </body>
 </html>
